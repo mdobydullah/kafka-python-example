@@ -2,23 +2,27 @@ from kafka import KafkaConsumer
 import json
 
 try:
-    print('Welcome to Kafka consumer')
+    print('Kafka Consumer!')
 
     consumer = KafkaConsumer(
         'topic',
         bootstrap_servers='localhost:9092',
         group_id=None,
-        auto_offset_reset='earliest'  # latest, earliest
+        auto_offset_reset='latest',  # latest, earliest
+        value_deserializer=lambda m: json.loads(m.decode('utf-8'))
     )
 
     # print(consumer.config)
-    print(consumer.bootstrap_connected())
+    connected = consumer.bootstrap_connected()
+    print(f"Connected: {connected}")
+    print("\n")
 
     # Pull messages every 1 second
-    consumer.poll(timeout_ms=1000)
+    # consumer.poll(timeout_ms=1000)
 
-    for message in consumer:
-        print(message)
+    print(f"Messages:")
+    for counter, message in consumer:
+        print(message.value)
 
 except Exception as e:
     print(e)

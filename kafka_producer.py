@@ -1,30 +1,48 @@
+import json
+from time import sleep
+
 from kafka import KafkaProducer
 from json import dumps
+from faker import Faker
 
 try:
-    print('Welcome to Kafka Producer!')
+    print('Kafka Producer!')
 
     producer = KafkaProducer(
         bootstrap_servers='localhost:9092',
         # value_serializer=lambda m: json.dumps(m).encode('ascii'),
-        value_serializer=lambda m: dumps(m).encode('utf-8'),
+        # value_serializer=lambda m: dumps(m).encode('utf-8'),
+        value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
 
     # print(producer.config)
-    print(producer.bootstrap_connected())
+    connected = producer.bootstrap_connected()
+    print(f"Connected: {connected}")
+    print("\n")
 
-    for _ in range(1):
-        print("Sending messages...")
+    print("Sending messages:")
+    for i in range(3):
+        i += 1
+        print(f"Message {i}")
 
-        # print(producer.send('topic', b'another_message').get(timeout=1))
-        # print(producer.send("topic", value={"hello": "producer"}).get(timeout=1))
+        # print(producer.send('topic', b'hello').get(timeout=1))
+        # message = producer.send("topic", {"hello": "producer"}).get(timeout=1)
+        # message = producer.send("topic", value={"hello": "producer"}).get(timeout=1)
 
-        data = producer.send("topic", value={"hello": "producer"}).get(timeout=1)
+        fake = Faker()
+
+        message = {
+            'name': fake.name(),
+            'address': fake.address()
+        }
+
+        sent = producer.send("topic", value=message).get(timeout=1)
 
         # producer.flush()
-        print(data.topic)
-        print(data.partition)
-        print(data.offset)
+        # print(sent.topic)
+        # print(sent.partition)
+        # print(sent.offset)
+        sleep(1)
 
 except Exception as e:
     print(e)
