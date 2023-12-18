@@ -20,22 +20,20 @@ try:
     print(f"Connected: {connected}")
     print("\n")
 
-    print("Sending messages:")
-    for i in range(3):
+    print("Sending data:")
+    for i in range(50):
         i += 1
-        print(f"Message {i}")
+        print(f"Data {i}")
 
         # print(producer.send('topic', b'hello').get(timeout=1))
         # message = producer.send("topic", {"hello": "producer"}).get(timeout=1)
         # message = producer.send("topic", value={"hello": "producer"}).get(timeout=1)
 
         fake = Faker()
-
         message = {
             'name': fake.name(),
             'address': fake.address()
         }
-
         sent = producer.send("topic", value=message).get(timeout=1)
 
         # producer.flush()

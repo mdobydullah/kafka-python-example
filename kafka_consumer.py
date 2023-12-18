@@ -20,8 +20,8 @@ try:
     # Pull messages every 1 second
     # consumer.poll(timeout_ms=1000)
 
-    print(f"Messages:")
-    for counter, message in consumer:
+    print(f"Receiving data:")
+    for message in consumer:
         print(message.value)
 
 except Exception as e:
