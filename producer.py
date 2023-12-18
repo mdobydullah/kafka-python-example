@@ -21,7 +21,7 @@ try:
     print("\n")
 
     print("Sending data:")
-    for i in range(50):
+    for i in range(25):
         i += 1
         print(f"Data {i}")
 
