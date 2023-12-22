@@ -4,4 +4,4 @@
 </p>
 
 Resources:
-- [Apache Kafka, CMAK Docker config](https://github.com/mdobydullah/kafka-cmak-docker)
+- [Big Data Docker Environments](https://github.com/mdobydullah/big-data)
